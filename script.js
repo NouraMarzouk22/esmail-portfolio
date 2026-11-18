@@ -9,6 +9,17 @@ toggle.addEventListener('click', () => {
 nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
   nav.classList.remove('open');
   toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-label', 'Open menu');
   toggle.textContent = '☰';
 }));
-document.querySelector('#year').textContent = String(new Date().getFullYear());
+const year = document.querySelector('#year');
+if (year) year.textContent = String(new Date().getFullYear());
+
+// Show each event player after its video metadata has loaded.
+document.querySelectorAll('.event-video-shell').forEach(shell => {
+  const video = shell.querySelector('video');
+  if (!video) return;
+  video.addEventListener('loadedmetadata', () => shell.classList.add('has-video'));
+  video.addEventListener('error', () => shell.classList.remove('has-video'));
+  video.load();
+});
